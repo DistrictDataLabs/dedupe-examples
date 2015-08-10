@@ -23,7 +23,10 @@ online stores. The task is to link products between the datasets.</p>
 <p>The output will be a CSV with our linkded results.</p>
     </div>
     <div class='code'>
-      <div class="highlight"><pre><span class="kn">import</span> <span class="nn">os</span>
+      <div class="highlight"><pre><span class="kn">from</span> <span class="nn">__future__</span> <span class="kn">import</span> <span class="n">print_function</span>
+<span class="kn">from</span> <span class="nn">future.builtins</span> <span class="kn">import</span> <span class="nb">next</span>
+
+<span class="kn">import</span> <span class="nn">os</span>
 <span class="kn">import</span> <span class="nn">csv</span>
 <span class="kn">import</span> <span class="nn">re</span>
 <span class="kn">import</span> <span class="nn">collections</span>
@@ -63,10 +66,11 @@ To enable verbose logging, run <code>python examples/csv_example/csv_example.py 
                 <span class="p">)</span>
 <span class="p">(</span><span class="n">opts</span><span class="p">,</span> <span class="n">args</span><span class="p">)</span> <span class="o">=</span> <span class="n">optp</span><span class="o">.</span><span class="n">parse_args</span><span class="p">()</span>
 <span class="n">log_level</span> <span class="o">=</span> <span class="n">logging</span><span class="o">.</span><span class="n">WARNING</span> 
-<span class="k">if</span> <span class="n">opts</span><span class="o">.</span><span class="n">verbose</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
-    <span class="n">log_level</span> <span class="o">=</span> <span class="n">logging</span><span class="o">.</span><span class="n">INFO</span>
-<span class="k">elif</span> <span class="n">opts</span><span class="o">.</span><span class="n">verbose</span> <span class="o">&gt;=</span> <span class="mi">2</span><span class="p">:</span>
-    <span class="n">log_level</span> <span class="o">=</span> <span class="n">logging</span><span class="o">.</span><span class="n">DEBUG</span>
+<span class="k">if</span> <span class="n">opts</span><span class="o">.</span><span class="n">verbose</span> <span class="p">:</span>
+    <span class="k">if</span> <span class="n">opts</span><span class="o">.</span><span class="n">verbose</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
+        <span class="n">log_level</span> <span class="o">=</span> <span class="n">logging</span><span class="o">.</span><span class="n">INFO</span>
+    <span class="k">elif</span> <span class="n">opts</span><span class="o">.</span><span class="n">verbose</span> <span class="o">&gt;=</span> <span class="mi">2</span><span class="p">:</span>
+        <span class="n">log_level</span> <span class="o">=</span> <span class="n">logging</span><span class="o">.</span><span class="n">DEBUG</span>
 <span class="n">logging</span><span class="o">.</span><span class="n">getLogger</span><span class="p">()</span><span class="o">.</span><span class="n">setLevel</span><span class="p">(</span><span class="n">log_level</span><span class="p">)</span></pre></div>
     </div>
   </div>
@@ -155,7 +159,7 @@ where the key is a unique record ID.</p>
     <span class="k">return</span> <span class="n">data_d</span>
 
     
-<span class="k">print</span> <span class="s">&#39;importing data ...&#39;</span>
+<span class="k">print</span><span class="p">(</span><span class="s">&#39;importing data ...&#39;</span><span class="p">)</span>
 <span class="n">data_1</span> <span class="o">=</span> <span class="n">readData</span><span class="p">(</span><span class="s">&#39;AbtBuy_Abt.csv&#39;</span><span class="p">)</span>
 <span class="n">data_2</span> <span class="o">=</span> <span class="n">readData</span><span class="p">(</span><span class="s">&#39;AbtBuy_Buy.csv&#39;</span><span class="p">)</span></pre></div>
     </div>
@@ -185,8 +189,8 @@ where the key is a unique record ID.</p>
     </div>
     <div class='code'>
       <div class="highlight"><pre><span class="k">if</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">exists</span><span class="p">(</span><span class="n">settings_file</span><span class="p">):</span>
-    <span class="k">print</span> <span class="s">&#39;reading from&#39;</span><span class="p">,</span> <span class="n">settings_file</span>
-    <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">settings_file</span><span class="p">)</span> <span class="k">as</span> <span class="n">sf</span> <span class="p">:</span>
+    <span class="k">print</span><span class="p">(</span><span class="s">&#39;reading from&#39;</span><span class="p">,</span> <span class="n">settings_file</span><span class="p">)</span>
+    <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">settings_file</span><span class="p">,</span> <span class="s">&#39;rb&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">sf</span> <span class="p">:</span>
         <span class="n">linker</span> <span class="o">=</span> <span class="n">dedupe</span><span class="o">.</span><span class="n">StaticRecordLink</span><span class="p">(</span><span class="n">sf</span><span class="p">)</span>
 
 <span class="k">else</span><span class="p">:</span></pre></div>
@@ -232,7 +236,7 @@ for the 'price' field. </p>
       <p>To train the linker, we feed it a sample of records.</p>
     </div>
     <div class='code'>
-      <div class="highlight"><pre>    <span class="n">linker</span><span class="o">.</span><span class="n">sample</span><span class="p">(</span><span class="n">data_1</span><span class="p">,</span> <span class="n">data_2</span><span class="p">,</span> <span class="mi">150000</span><span class="p">)</span></pre></div>
+      <div class="highlight"><pre>    <span class="n">linker</span><span class="o">.</span><span class="n">sample</span><span class="p">(</span><span class="n">data_1</span><span class="p">,</span> <span class="n">data_2</span><span class="p">,</span> <span class="mi">15000</span><span class="p">)</span></pre></div>
     </div>
   </div>
   <div class='clearall'></div>
@@ -247,7 +251,7 @@ look for it an load it in.
     </div>
     <div class='code'>
       <div class="highlight"><pre>    <span class="k">if</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">exists</span><span class="p">(</span><span class="n">training_file</span><span class="p">):</span>
-        <span class="k">print</span> <span class="s">&#39;reading labeled examples from &#39;</span><span class="p">,</span> <span class="n">training_file</span>
+        <span class="k">print</span><span class="p">(</span><span class="s">&#39;reading labeled examples from &#39;</span><span class="p">,</span> <span class="n">training_file</span><span class="p">)</span>
         <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">training_file</span><span class="p">)</span> <span class="k">as</span> <span class="n">tf</span> <span class="p">:</span>
             <span class="n">linker</span><span class="o">.</span><span class="n">readTraining</span><span class="p">(</span><span class="n">tf</span><span class="p">)</span></pre></div>
     </div>
@@ -266,7 +270,7 @@ use 'y', 'n' and 'u' keys to flag duplicates
 press 'f' when you are finished</p>
     </div>
     <div class='code'>
-      <div class="highlight"><pre>    <span class="k">print</span> <span class="s">&#39;starting active labeling...&#39;</span>
+      <div class="highlight"><pre>    <span class="k">print</span><span class="p">(</span><span class="s">&#39;starting active labeling...&#39;</span><span class="p">)</span>
 
     <span class="n">dedupe</span><span class="o">.</span><span class="n">consoleLabel</span><span class="p">(</span><span class="n">linker</span><span class="p">)</span>
 
@@ -297,7 +301,7 @@ exists, we will skip all the training and learning next time we run
 this file.</p>
     </div>
     <div class='code'>
-      <div class="highlight"><pre>    <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">settings_file</span><span class="p">,</span> <span class="s">&#39;w&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">sf</span> <span class="p">:</span>
+      <div class="highlight"><pre>    <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">settings_file</span><span class="p">,</span> <span class="s">&#39;wb&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">sf</span> <span class="p">:</span>
         <span class="n">linker</span><span class="o">.</span><span class="n">writeSettings</span><span class="p">(</span><span class="n">sf</span><span class="p">)</span></pre></div>
     </div>
   </div>
@@ -338,10 +342,10 @@ saying we care twice as much about recall as we do precision.</p>
 this function but a representative sample.</p>
     </div>
     <div class='code'>
-      <div class="highlight"><pre><span class="k">print</span> <span class="s">&#39;clustering...&#39;</span>
+      <div class="highlight"><pre><span class="k">print</span><span class="p">(</span><span class="s">&#39;clustering...&#39;</span><span class="p">)</span>
 <span class="n">linked_records</span> <span class="o">=</span> <span class="n">linker</span><span class="o">.</span><span class="n">match</span><span class="p">(</span><span class="n">data_1</span><span class="p">,</span> <span class="n">data_2</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
 
-<span class="k">print</span> <span class="s">&#39;# duplicate sets&#39;</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">linked_records</span><span class="p">)</span></pre></div>
+<span class="k">print</span><span class="p">(</span><span class="s">&#39;# duplicate sets&#39;</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">linked_records</span><span class="p">))</span></pre></div>
     </div>
   </div>
   <div class='clearall'></div>
@@ -388,14 +392,14 @@ this function but a representative sample.</p>
             <span class="n">reader</span> <span class="o">=</span> <span class="n">csv</span><span class="o">.</span><span class="n">reader</span><span class="p">(</span><span class="n">f_input</span><span class="p">)</span>
 
             <span class="k">if</span> <span class="n">header_unwritten</span> <span class="p">:</span>
-                <span class="n">heading_row</span> <span class="o">=</span> <span class="n">reader</span><span class="o">.</span><span class="n">next</span><span class="p">()</span>
+                <span class="n">heading_row</span> <span class="o">=</span> <span class="nb">next</span><span class="p">(</span><span class="n">reader</span><span class="p">)</span>
                 <span class="n">heading_row</span><span class="o">.</span><span class="n">insert</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="s">&#39;source file&#39;</span><span class="p">)</span>
                 <span class="n">heading_row</span><span class="o">.</span><span class="n">insert</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="s">&#39;Link Score&#39;</span><span class="p">)</span>
                 <span class="n">heading_row</span><span class="o">.</span><span class="n">insert</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="s">&#39;Cluster ID&#39;</span><span class="p">)</span>
                 <span class="n">writer</span><span class="o">.</span><span class="n">writerow</span><span class="p">(</span><span class="n">heading_row</span><span class="p">)</span>
                 <span class="n">header_unwritten</span> <span class="o">=</span> <span class="bp">False</span>
             <span class="k">else</span> <span class="p">:</span>
-                <span class="n">reader</span><span class="o">.</span><span class="n">next</span><span class="p">()</span>
+                <span class="nb">next</span><span class="p">(</span><span class="n">reader</span><span class="p">)</span>
 
             <span class="k">for</span> <span class="n">row_id</span><span class="p">,</span> <span class="n">row</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">reader</span><span class="p">):</span>
                 <span class="n">cluster_details</span> <span class="o">=</span> <span class="n">cluster_membership</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">filename</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">row_id</span><span class="p">))</span>

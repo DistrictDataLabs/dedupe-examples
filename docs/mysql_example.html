@@ -42,7 +42,9 @@ before running this script. See the annotates source for
       
     </div>
     <div class='code'>
-      <div class="highlight"><pre><span class="kn">import</span> <span class="nn">os</span>
+      <div class="highlight"><pre><span class="kn">from</span> <span class="nn">__future__</span> <span class="kn">import</span> <span class="n">print_function</span>
+
+<span class="kn">import</span> <span class="nn">os</span>
 <span class="kn">import</span> <span class="nn">itertools</span>
 <span class="kn">import</span> <span class="nn">time</span>
 <span class="kn">import</span> <span class="nn">logging</span>
@@ -86,10 +88,11 @@ examples/mysql_example/mysql_example.py -v</code></p>
                 <span class="p">)</span>
 <span class="p">(</span><span class="n">opts</span><span class="p">,</span> <span class="n">args</span><span class="p">)</span> <span class="o">=</span> <span class="n">optp</span><span class="o">.</span><span class="n">parse_args</span><span class="p">()</span>
 <span class="n">log_level</span> <span class="o">=</span> <span class="n">logging</span><span class="o">.</span><span class="n">WARNING</span> 
-<span class="k">if</span> <span class="n">opts</span><span class="o">.</span><span class="n">verbose</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
-    <span class="n">log_level</span> <span class="o">=</span> <span class="n">logging</span><span class="o">.</span><span class="n">INFO</span>
-<span class="k">elif</span> <span class="n">opts</span><span class="o">.</span><span class="n">verbose</span> <span class="o">&gt;=</span> <span class="mi">2</span><span class="p">:</span>
-    <span class="n">log_level</span> <span class="o">=</span> <span class="n">logging</span><span class="o">.</span><span class="n">DEBUG</span>
+<span class="k">if</span> <span class="n">opts</span><span class="o">.</span><span class="n">verbose</span> <span class="p">:</span>
+    <span class="k">if</span> <span class="n">opts</span><span class="o">.</span><span class="n">verbose</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
+        <span class="n">log_level</span> <span class="o">=</span> <span class="n">logging</span><span class="o">.</span><span class="n">INFO</span>
+    <span class="k">elif</span> <span class="n">opts</span><span class="o">.</span><span class="n">verbose</span> <span class="o">&gt;=</span> <span class="mi">2</span><span class="p">:</span>
+        <span class="n">log_level</span> <span class="o">=</span> <span class="n">logging</span><span class="o">.</span><span class="n">DEBUG</span>
 <span class="n">logging</span><span class="o">.</span><span class="n">getLogger</span><span class="p">()</span><span class="o">.</span><span class="n">setLevel</span><span class="p">(</span><span class="n">log_level</span><span class="p">)</span></pre></div>
     </div>
   </div>
@@ -175,8 +178,8 @@ in campaign donor info.</p>
     </div>
     <div class='code'>
       <div class="highlight"><pre><span class="k">if</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">exists</span><span class="p">(</span><span class="n">settings_file</span><span class="p">):</span>
-    <span class="k">print</span> <span class="s">&#39;reading from &#39;</span><span class="p">,</span> <span class="n">settings_file</span>
-    <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">settings_file</span><span class="p">)</span> <span class="k">as</span> <span class="n">sf</span> <span class="p">:</span>
+    <span class="k">print</span><span class="p">(</span><span class="s">&#39;reading from &#39;</span><span class="p">,</span> <span class="n">settings_file</span><span class="p">)</span>
+    <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">settings_file</span><span class="p">,</span> <span class="s">&#39;rb&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">sf</span> <span class="p">:</span>
         <span class="n">deduper</span> <span class="o">=</span> <span class="n">dedupe</span><span class="o">.</span><span class="n">StaticDedupe</span><span class="p">(</span><span class="n">sf</span><span class="p">,</span> <span class="n">num_cores</span><span class="o">=</span><span class="mi">4</span><span class="p">)</span>
 <span class="k">else</span><span class="p">:</span></pre></div>
     </div>
@@ -233,7 +236,7 @@ account</p>
       <div class="highlight"><pre>    <span class="n">c</span><span class="o">.</span><span class="n">execute</span><span class="p">(</span><span class="n">DONOR_SELECT</span><span class="p">)</span>
     <span class="n">temp_d</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">((</span><span class="n">i</span><span class="p">,</span> <span class="n">row</span><span class="p">)</span> <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">row</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">c</span><span class="p">))</span>
 
-    <span class="n">deduper</span><span class="o">.</span><span class="n">sample</span><span class="p">(</span><span class="n">temp_d</span><span class="p">,</span> <span class="mi">75000</span><span class="p">)</span>
+    <span class="n">deduper</span><span class="o">.</span><span class="n">sample</span><span class="p">(</span><span class="n">temp_d</span><span class="p">,</span> <span class="mi">10000</span><span class="p">)</span>
     <span class="k">del</span> <span class="n">temp_d</span></pre></div>
     </div>
   </div>
@@ -250,7 +253,7 @@ scratch, delete the training_file</p>
     </div>
     <div class='code'>
       <div class="highlight"><pre>    <span class="k">if</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">exists</span><span class="p">(</span><span class="n">training_file</span><span class="p">):</span>
-        <span class="k">print</span> <span class="s">&#39;reading labeled examples from &#39;</span><span class="p">,</span> <span class="n">training_file</span>
+        <span class="k">print</span><span class="p">(</span><span class="s">&#39;reading labeled examples from &#39;</span><span class="p">,</span> <span class="n">training_file</span><span class="p">)</span>
         <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">training_file</span><span class="p">)</span> <span class="k">as</span> <span class="n">tf</span> <span class="p">:</span>
             <span class="n">deduper</span><span class="o">.</span><span class="n">readTraining</span><span class="p">(</span><span class="n">tf</span><span class="p">)</span></pre></div>
     </div>
@@ -264,7 +267,7 @@ scratch, delete the training_file</p>
       <h2>Active learning</h2>
     </div>
     <div class='code'>
-      <div class="highlight"><pre>    <span class="k">print</span> <span class="s">&#39;starting active labeling...&#39;</span></pre></div>
+      <div class="highlight"><pre>    <span class="k">print</span><span class="p">(</span><span class="s">&#39;starting active labeling...&#39;</span><span class="p">)</span></pre></div>
     </div>
   </div>
   <div class='clearall'></div>
@@ -329,7 +332,7 @@ distinct pairs that we'll have to expensively, compare as well.</p>
     <div class='code'>
       <div class="highlight"><pre>    <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">training_file</span><span class="p">,</span> <span class="s">&#39;w&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">tf</span><span class="p">:</span>
         <span class="n">deduper</span><span class="o">.</span><span class="n">writeTraining</span><span class="p">(</span><span class="n">tf</span><span class="p">)</span>
-    <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">settings_file</span><span class="p">,</span> <span class="s">&#39;w&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">sf</span><span class="p">:</span>
+    <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">settings_file</span><span class="p">,</span> <span class="s">&#39;wb&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">sf</span><span class="p">:</span>
         <span class="n">deduper</span><span class="o">.</span><span class="n">writeSettings</span><span class="p">(</span><span class="n">sf</span><span class="p">)</span></pre></div>
     </div>
   </div>
@@ -355,7 +358,7 @@ for training</p>
       <h1>Blocking</h1>
     </div>
     <div class='code'>
-      <div class="highlight"><pre><span class="k">print</span> <span class="s">&#39;blocking...&#39;</span></pre></div>
+      <div class="highlight"><pre><span class="k">print</span><span class="p">(</span><span class="s">&#39;blocking...&#39;</span><span class="p">)</span></pre></div>
     </div>
   </div>
   <div class='clearall'></div>
@@ -368,7 +371,7 @@ for training</p>
 that contains blocking keys and record ids</p>
     </div>
     <div class='code'>
-      <div class="highlight"><pre><span class="k">print</span> <span class="s">&#39;creating blocking_map database&#39;</span>
+      <div class="highlight"><pre><span class="k">print</span><span class="p">(</span><span class="s">&#39;creating blocking_map database&#39;</span><span class="p">)</span>
 <span class="n">c</span><span class="o">.</span><span class="n">execute</span><span class="p">(</span><span class="s">&quot;DROP TABLE IF EXISTS blocking_map&quot;</span><span class="p">)</span>
 <span class="n">c</span><span class="o">.</span><span class="n">execute</span><span class="p">(</span><span class="s">&quot;CREATE TABLE blocking_map &quot;</span>
           <span class="s">&quot;(block_key VARCHAR(200), donor_id INTEGER) &quot;</span>
@@ -385,7 +388,7 @@ that contains blocking keys and record ids</p>
 through the data and create indices.</p>
     </div>
     <div class='code'>
-      <div class="highlight"><pre><span class="k">print</span> <span class="s">&#39;creating inverted index&#39;</span>
+      <div class="highlight"><pre><span class="k">print</span><span class="p">(</span><span class="s">&#39;creating inverted index&#39;</span><span class="p">)</span>
 
 <span class="k">for</span> <span class="n">field</span> <span class="ow">in</span> <span class="n">deduper</span><span class="o">.</span><span class="n">blocker</span><span class="o">.</span><span class="n">index_fields</span> <span class="p">:</span>
     <span class="n">c2</span><span class="o">.</span><span class="n">execute</span><span class="p">(</span><span class="s">&quot;SELECT DISTINCT </span><span class="si">%s</span><span class="s"> FROM processed_donors&quot;</span> <span class="o">%</span> <span class="n">field</span><span class="p">)</span>
@@ -403,7 +406,7 @@ through the data and create indices.</p>
 generator that yields unique <code>(block_key, donor_id)</code> tuples.</p>
     </div>
     <div class='code'>
-      <div class="highlight"><pre><span class="k">print</span> <span class="s">&#39;writing blocking map&#39;</span>
+      <div class="highlight"><pre><span class="k">print</span><span class="p">(</span><span class="s">&#39;writing blocking map&#39;</span><span class="p">)</span>
 
 <span class="n">c</span><span class="o">.</span><span class="n">execute</span><span class="p">(</span><span class="n">DONOR_SELECT</span><span class="p">)</span>
 <span class="n">full_data</span> <span class="o">=</span> <span class="p">((</span><span class="n">row</span><span class="p">[</span><span class="s">&#39;donor_id&#39;</span><span class="p">],</span> <span class="n">row</span><span class="p">)</span> <span class="k">for</span> <span class="n">row</span> <span class="ow">in</span> <span class="n">c</span><span class="p">)</span>
@@ -452,10 +455,13 @@ parallel database writers</p>
 <span class="k">while</span> <span class="ow">not</span> <span class="n">done</span> <span class="p">:</span>
     <span class="n">chunks</span> <span class="o">=</span> <span class="p">(</span><span class="nb">list</span><span class="p">(</span><span class="n">itertools</span><span class="o">.</span><span class="n">islice</span><span class="p">(</span><span class="n">b_data</span><span class="p">,</span> <span class="n">step</span><span class="p">))</span> <span class="k">for</span> <span class="n">step</span> <span class="ow">in</span> <span class="p">[</span><span class="n">step_size</span><span class="p">]</span><span class="o">*</span><span class="mi">100</span><span class="p">)</span>
 
-    <span class="n">results</span> <span class="o">=</span><span class="p">[</span><span class="n">pool</span><span class="o">.</span><span class="n">apply_async</span><span class="p">(</span><span class="n">dbWriter</span><span class="p">,</span>
-                               <span class="p">(</span><span class="s">&quot;INSERT INTO blocking_map VALUES (</span><span class="si">%s</span><span class="s">, </span><span class="si">%s</span><span class="s">)&quot;</span><span class="p">,</span> 
-                                <span class="n">chunk</span><span class="p">))</span>
-              <span class="k">for</span> <span class="n">chunk</span> <span class="ow">in</span> <span class="n">chunks</span><span class="p">]</span>
+    
+    <span class="n">results</span> <span class="o">=</span> <span class="p">[]</span>
+
+    <span class="k">for</span> <span class="n">chunk</span> <span class="ow">in</span> <span class="n">chunks</span> <span class="p">:</span>
+        <span class="n">results</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">pool</span><span class="o">.</span><span class="n">apply_async</span><span class="p">(</span><span class="n">dbWriter</span><span class="p">,</span>
+                                        <span class="p">(</span><span class="s">&quot;INSERT INTO blocking_map VALUES (</span><span class="si">%s</span><span class="s">, </span><span class="si">%s</span><span class="s">)&quot;</span><span class="p">,</span> 
+                                         <span class="n">chunk</span><span class="p">)))</span>
 
     <span class="k">for</span> <span class="n">r</span> <span class="ow">in</span> <span class="n">results</span> <span class="p">:</span>
         <span class="n">r</span><span class="o">.</span><span class="n">wait</span><span class="p">()</span>
@@ -501,7 +507,7 @@ donor, key and index blocking map.</p>
 blocks of data for comparison</p>
     </div>
     <div class='code'>
-      <div class="highlight"><pre><span class="k">print</span> <span class="s">&#39;prepare blocking table. this will probably take a while ...&#39;</span>
+      <div class="highlight"><pre><span class="k">print</span><span class="p">(</span><span class="s">&#39;prepare blocking table. this will probably take a while ...&#39;</span><span class="p">)</span>
 
 <span class="n">logging</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s">&quot;indexing block_key&quot;</span><span class="p">)</span>
 <span class="n">c</span><span class="o">.</span><span class="n">execute</span><span class="p">(</span><span class="s">&quot;ALTER TABLE blocking_map &quot;</span>
@@ -637,8 +643,8 @@ GROUP_CONCAT we can achieve this by using some string hacks.</p>
             <span class="n">i</span> <span class="o">+=</span> <span class="mi">1</span>
 
             <span class="k">if</span> <span class="n">i</span> <span class="o">%</span> <span class="mi">10000</span> <span class="o">==</span> <span class="mi">0</span> <span class="p">:</span>
-                <span class="k">print</span> <span class="n">i</span><span class="p">,</span> <span class="s">&quot;blocks&quot;</span>
-                <span class="k">print</span> <span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span> <span class="o">-</span> <span class="n">start_time</span><span class="p">,</span> <span class="s">&quot;seconds&quot;</span>
+                <span class="k">print</span><span class="p">(</span><span class="n">i</span><span class="p">,</span> <span class="s">&quot;blocks&quot;</span><span class="p">)</span>
+                <span class="k">print</span><span class="p">(</span><span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span> <span class="o">-</span> <span class="n">start_time</span><span class="p">,</span> <span class="s">&quot;seconds&quot;</span><span class="p">)</span>
 
         <span class="n">smaller_ids</span> <span class="o">=</span> <span class="n">row</span><span class="p">[</span><span class="s">&#39;smaller_ids&#39;</span><span class="p">]</span>
         
@@ -660,7 +666,7 @@ GROUP_CONCAT we can achieve this by using some string hacks.</p>
           <span class="s">&quot;USING (donor_id) &quot;</span>
           <span class="s">&quot;ORDER BY (block_id)&quot;</span><span class="p">)</span>
 
-<span class="k">print</span> <span class="s">&#39;clustering...&#39;</span>
+<span class="k">print</span><span class="p">(</span><span class="s">&#39;clustering...&#39;</span><span class="p">)</span>
 <span class="n">clustered_dupes</span> <span class="o">=</span> <span class="n">deduper</span><span class="o">.</span><span class="n">matchBlocks</span><span class="p">(</span><span class="n">candidates_gen</span><span class="p">(</span><span class="n">c</span><span class="p">),</span>
                                       <span class="n">threshold</span><span class="o">=</span><span class="mf">0.5</span><span class="p">)</span></pre></div>
     </div>
@@ -690,7 +696,7 @@ table</p>
     <div class='code'>
       <div class="highlight"><pre><span class="n">c</span><span class="o">.</span><span class="n">execute</span><span class="p">(</span><span class="s">&quot;DROP TABLE IF EXISTS entity_map&quot;</span><span class="p">)</span>
 
-<span class="k">print</span> <span class="s">&#39;creating entity_map database&#39;</span>
+<span class="k">print</span><span class="p">(</span><span class="s">&#39;creating entity_map database&#39;</span><span class="p">)</span>
 <span class="n">c</span><span class="o">.</span><span class="n">execute</span><span class="p">(</span><span class="s">&quot;CREATE TABLE entity_map &quot;</span>
           <span class="s">&quot;(donor_id INTEGER, canon_id INTEGER, &quot;</span>
           <span class="s">&quot; cluster_score FLOAT, PRIMARY KEY(donor_id))&quot;</span><span class="p">)</span>
@@ -716,8 +722,8 @@ table</p>
       <p>Print out the number of duplicates found</p>
     </div>
     <div class='code'>
-      <div class="highlight"><pre><span class="k">print</span> <span class="s">&#39;# duplicate sets&#39;</span>
-<span class="k">print</span> <span class="nb">len</span><span class="p">(</span><span class="n">clustered_dupes</span><span class="p">)</span></pre></div>
+      <div class="highlight"><pre><span class="k">print</span><span class="p">(</span><span class="s">&#39;# duplicate sets&#39;</span><span class="p">)</span>
+<span class="k">print</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">clustered_dupes</span><span class="p">))</span></pre></div>
     </div>
   </div>
   <div class='clearall'></div>
@@ -774,10 +780,10 @@ of the data</p>
           <span class="s">&quot;WHERE donors.donor_id = donation_totals.canon_id&quot;</span><span class="p">)</span>
 
 
-<span class="k">print</span> <span class="s">&quot;Top Donors (deduped)&quot;</span>
+<span class="k">print</span><span class="p">(</span><span class="s">&quot;Top Donors (deduped)&quot;</span><span class="p">)</span>
 <span class="k">for</span> <span class="n">row</span> <span class="ow">in</span> <span class="n">c</span><span class="o">.</span><span class="n">fetchall</span><span class="p">()</span> <span class="p">:</span>
     <span class="n">row</span><span class="p">[</span><span class="s">&#39;totals&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">locale</span><span class="o">.</span><span class="n">currency</span><span class="p">(</span><span class="n">row</span><span class="p">[</span><span class="s">&#39;totals&#39;</span><span class="p">],</span> <span class="n">grouping</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
-    <span class="k">print</span> <span class="s">&#39;</span><span class="si">%(totals)20s</span><span class="s">: </span><span class="si">%(name)s</span><span class="s">&#39;</span> <span class="o">%</span> <span class="n">row</span></pre></div>
+    <span class="k">print</span><span class="p">(</span><span class="s">&#39;</span><span class="si">%(totals)20s</span><span class="s">: </span><span class="si">%(name)s</span><span class="s">&#39;</span> <span class="o">%</span> <span class="n">row</span><span class="p">)</span></pre></div>
     </div>
   </div>
   <div class='clearall'></div>
@@ -798,10 +804,10 @@ deduplication</p>
           <span class="s">&quot;ORDER BY totals DESC &quot;</span>
           <span class="s">&quot;LIMIT 10&quot;</span><span class="p">)</span>
 
-<span class="k">print</span> <span class="s">&quot;Top Donors (raw)&quot;</span>
+<span class="k">print</span><span class="p">(</span><span class="s">&quot;Top Donors (raw)&quot;</span><span class="p">)</span>
 <span class="k">for</span> <span class="n">row</span> <span class="ow">in</span> <span class="n">c</span><span class="o">.</span><span class="n">fetchall</span><span class="p">()</span> <span class="p">:</span>
     <span class="n">row</span><span class="p">[</span><span class="s">&#39;totals&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">locale</span><span class="o">.</span><span class="n">currency</span><span class="p">(</span><span class="n">row</span><span class="p">[</span><span class="s">&#39;totals&#39;</span><span class="p">],</span> <span class="n">grouping</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
-    <span class="k">print</span> <span class="s">&#39;</span><span class="si">%(totals)20s</span><span class="s">: </span><span class="si">%(name)s</span><span class="s">&#39;</span> <span class="o">%</span> <span class="n">row</span></pre></div>
+    <span class="k">print</span><span class="p">(</span><span class="s">&#39;</span><span class="si">%(totals)20s</span><span class="s">: </span><span class="si">%(name)s</span><span class="s">&#39;</span> <span class="o">%</span> <span class="n">row</span><span class="p">)</span></pre></div>
     </div>
   </div>
   <div class='clearall'></div>
@@ -816,7 +822,7 @@ deduplication</p>
       <div class="highlight"><pre><span class="n">c</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
 <span class="n">con</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
 
-<span class="k">print</span> <span class="s">&#39;ran in&#39;</span><span class="p">,</span> <span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span> <span class="o">-</span> <span class="n">start_time</span><span class="p">,</span> <span class="s">&#39;seconds&#39;</span>
+<span class="k">print</span><span class="p">(</span><span class="s">&#39;ran in&#39;</span><span class="p">,</span> <span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span> <span class="o">-</span> <span class="n">start_time</span><span class="p">,</span> <span class="s">&#39;seconds&#39;</span><span class="p">)</span>
 
 </pre></div>
     </div>
