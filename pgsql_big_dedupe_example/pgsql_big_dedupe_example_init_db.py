@@ -6,7 +6,7 @@ Illinois campaign contributions and loads them in t aMySQL database
 named 'contributions'.
 
 __Note:__ You will need to run this script first before execuing
-[mysql_example.py](http://open-city.github.com/dedupe/doc/mysql_example.html).
+[mysql_example.py](http://datamade.github.com/dedupe-examples/docs/mysql_example.html).
 
 Tables created:
 * raw_table - raw import of entire CSV file
@@ -75,7 +75,8 @@ if not db_conf:
 conn = psycopg2.connect(database=db_conf['NAME'],
                         user=db_conf['USER'],
                         password=db_conf['PASSWORD'],
-                        host=db_conf['HOST'])
+                        host=db_conf['HOST'],
+                        port=db_conf['PORT'])
 
 c = conn.cursor()
 
@@ -223,13 +224,13 @@ conn.commit()
 print 'creating processed_donors...'
 c.execute("CREATE TABLE processed_donors AS "
           "(SELECT donor_id, "
-          " COALESCE(LOWER(city), '') AS city, "
+          " LOWER(city) AS city, "
           " LOWER(CONCAT_WS(' ', first_name, last_name)) AS name, "
-          " COALESCE(LOWER(zip),'') AS zip, "
-          " COALESCE(LOWER(state),'') AS state, "
+          " LOWER(zip) AS zip, "
+          " LOWER(state) AS state, "
           " LOWER(CONCAT_WS(' ', address_1, address_2)) AS address, "
-          " COALESCE(LOWER(occupation), '') AS occupation, "
-          " COALESCE(LOWER(employer), '') AS employer, "
+          " LOWER(occupation) AS occupation, "
+          " LOWER(employer) AS employer, "
           " CAST((first_name IS NULL) AS INTEGER) AS person "
           " FROM donors)")
 
