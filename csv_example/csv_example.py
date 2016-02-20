@@ -35,7 +35,7 @@ optp.add_option('-v', '--verbose', dest='verbose', action='count',
                 help='Increase verbosity (specify multiple times for more)'
                 )
 (opts, args) = optp.parse_args()
-log_level = logging.WARNING 
+log_level = logging.WARNING
 if opts.verbose :
     if opts.verbose == 1:
         log_level = logging.INFO
@@ -58,7 +58,7 @@ def preProcess(column):
     Things like casing, extra spaces, quotes and new lines can be ignored.
     """
     import unidecode
-    #column = column.decode("utf8")
+    column = column.decode("utf8")
     column = unidecode.unidecode(column)
     column = re.sub('  +', ' ', column)
     column = re.sub('\n', ' ', column)
@@ -70,7 +70,7 @@ def preProcess(column):
 
 def readData(filename):
     """
-    Read in our data from a CSV file and create a dictionary of records, 
+    Read in our data from a CSV file and create a dictionary of records,
     where the key is a unique record ID and each value is dict
     """
 
@@ -99,7 +99,7 @@ else:
     # Define the fields dedupe will pay attention to
     #
     # Notice how we are telling dedupe to use a custom field comparator
-    # for the 'Zip' field. 
+    # for the 'Zip' field.
     fields = [
         {'field' : 'Site name', 'type': 'String'},
         {'field' : 'Address', 'type': 'String'},
@@ -151,7 +151,7 @@ print('blocking...')
 
 # ## Clustering
 
-# Find the threshold that will maximize a weighted average of our precision and recall. 
+# Find the threshold that will maximize a weighted average of our precision and recall.
 # When we set the recall weight to 2, we are saying we care twice as much
 # about recall as we do precision.
 #
@@ -170,7 +170,7 @@ print('# duplicate sets', len(clustered_dupes))
 
 # ## Writing Results
 
-# Write our original data back out to a CSV with a new column called 
+# Write our original data back out to a CSV with a new column called
 # 'Cluster ID' which indicates which records refer to each other.
 
 cluster_membership = {}
@@ -200,7 +200,7 @@ with open(output_file, 'w') as f_output:
         canonical_keys = canonical_rep.keys()
         for key in canonical_keys:
             heading_row.append('canonical_' + key)
-        
+
         writer.writerow(heading_row)
 
         for row in reader:
