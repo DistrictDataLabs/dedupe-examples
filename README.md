@@ -1,19 +1,17 @@
-# Dedupe Examples
+# Exploring Entity Resolution with Dedupe in Python
 
-Example scripts for the [dedupe](https://github.com/datamade/dedupe), a library that uses machine learning to perform de-duplication and entity resolution quickly on structured data.
+## Dedupe Examples
+
+These are example scripts for the [dedupe](https://github.com/datamade/dedupe), a library that uses machine learning to perform de-duplication and entity resolution quickly on structured data.
 
 To get these examples:
 ```bash
-git clone https://github.com/datamade/dedupe-examples.git
+git clone https://github.com/DistrictDataLabs/dedupe-examples.git
 cd dedupe-examples
-```
-
-or [download this repository](https://github.com/datamade/dedupe-examples/archive/master.zip)
-
-```bash
-cd /path/to/downloaded/file
-unzip master.zip
-cd dedupe-examples
+pip install unidecode
+pip install future
+pip install dedupe
+python csv_example.py
 ```
 
 ### [CSV example](http://datamade.github.com/dedupe-examples/docs/csv_example.html) - early childhood locations
@@ -23,10 +21,11 @@ This example works with a list of early childhood education sites in Chicago fro
 ```bash
 cd csv_example
 pip install unidecode
+
 python csv_example.py
 ```
   (use 'y', 'n' and 'u' keys to flag duplicates for active learning, 'f' when you are finished)
-  
+
 **To see how you might use dedupe with smallish data, see the [annotated source code for csv_example.py](http://datamade.github.com/dedupe-examples/docs/csv_example.html).**
 
 ### [Patent example](http://datamade.github.io/dedupe-examples/docs/patent_example.html) -  patent holders
@@ -45,7 +44,7 @@ This example links two spreadsheets of electronics products and links up the mat
 
 ```bash
 cd record_linkage_example
-python record_linkage_example.py 
+python record_linkage_example.py
 ```
 
 **To see how you might use dedupe for linking datasets, see the [annotated source code for record_linkage_example.py](http://datamade.github.com/dedupe-examples/docs/record_linkage_example.html).**
@@ -54,7 +53,7 @@ python record_linkage_example.py
 
 See `mysql_example/README.md` for details
 
-**To see how you might use dedupe with bigish data, see the [annotated source code for mysql_example](http://datamade.github.com/dedupe-examples/docs/mysql_example.html).** 
+**To see how you might use dedupe with bigish data, see the [annotated source code for mysql_example](http://datamade.github.com/dedupe-examples/docs/mysql_example.html).**
 
 
 ### [PostgreSQL big dedupe example](http://datamade.github.io/dedupe-examples/docs/pgsql_big_dedupe_example.html) - PostgreSQL example on large dataset
@@ -66,7 +65,7 @@ This is the same example as the MySQL IL campaign contributions dataset above, b
 
 ## Training
 
-The _secret sauce_ of dedupe is human input. In order to figure out the best rules to deduplicate a set of data, you must give it a set of labeled examples to learn from. 
+The _secret sauce_ of dedupe is human input. In order to figure out the best rules to deduplicate a set of data, you must give it a set of labeled examples to learn from.
 
 The more labeled examples you give it, the better the deduplication results will be. At minimum, you should try to provide __10 positive matches__ and __10 negative matches__.
 
@@ -88,4 +87,3 @@ Site name :  ada s. mckinley community services - mckinley - st. thomas
 Do these records refer to the same thing?
 (y)es / (n)o / (u)nsure / (f)inished
 ```
-
