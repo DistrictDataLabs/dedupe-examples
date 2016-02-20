@@ -8,10 +8,6 @@ To get these examples:
 ```bash
 git clone https://github.com/DistrictDataLabs/dedupe-examples.git
 cd dedupe-examples
-pip install unidecode
-pip install future
-pip install dedupe
-python csv_example.py
 ```
 
 ### [CSV example](http://datamade.github.com/dedupe-examples/docs/csv_example.html) - early childhood locations
@@ -21,7 +17,8 @@ This example works with a list of early childhood education sites in Chicago fro
 ```bash
 cd csv_example
 pip install unidecode
-
+pip install future
+pip install dedupe
 python csv_example.py
 ```
   (use 'y', 'n' and 'u' keys to flag duplicates for active learning, 'f' when you are finished)
