@@ -20,6 +20,12 @@ git clone https://github.com/DistrictDataLabs/dedupe-examples.git
 cd dedupe-examples
 ```
 
+Now we'll launch Jupyter and open up the file called "DDRL_EntResLab.ipynb":
+```bash
+jupyter notebook
+```
+
+
 ### [CSV example](http://datamade.github.com/dedupe-examples/docs/csv_example.html) - early childhood locations
 
 ## Testing out `dedupe`
@@ -34,6 +40,7 @@ pip install unidecode
 pip install future
 pip install dedupe
 ```    
+
 
 Then we'll run the csv_example.py file to see what dedupe can do:
 
