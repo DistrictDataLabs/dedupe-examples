@@ -12,7 +12,7 @@ pip install pandas
 
 ## Dedupe Examples
 
-These are example scripts for the [dedupe](https://github.com/datamade/dedupe), a library that uses machine learning to perform de-duplication and entity resolution quickly on structured data.
+These are example scripts for [dedupe](https://github.com/datamade/dedupe), a library that uses machine learning to perform de-duplication and entity resolution quickly on structured data.
 
 To get these examples:
 ```bash
@@ -22,16 +22,34 @@ cd dedupe-examples
 
 ### [CSV example](http://datamade.github.com/dedupe-examples/docs/csv_example.html) - early childhood locations
 
-This example works with a list of early childhood education sites in Chicago from 10 different sources.
+## Testing out `dedupe`
 
+Let's experiment with using the `dedupe` library to try cleaning up our file.    
+
+To get `dedupe` running, we'll need to install [Unidecode](https://pypi.python.org/pypi/Unidecode), [Future](https://pypi.python.org/pypi/future), and [Dedupe](https://dedupe.readthedocs.org/en/latest/).
+
+In your terminal:
 ```bash
-cd csv_example
 pip install unidecode
 pip install future
 pip install dedupe
+```    
+
+Then we'll run the csv_example.py file to see what dedupe can do:
+
+```bash
 python csv_example.py
 ```
-  (use 'y', 'n' and 'u' keys to flag duplicates for active learning, 'f' when you are finished)
+
+You can see that `dedupe` is a command line application that will prompt the user to engage in active learning by showing pairs of entities and asking if they are the same or different.
+
+    Do these records refer to the same thing?
+    (y)es / (n)o / (u)nsure / (f)inished
+
+Let's start training!
+Use 'y', 'n' and 'u' keys to flag duplicates for active learning.    
+
+When you are finished, enter 'f' to quit.    
 
 **To see how you might use dedupe with smallish data, see the [annotated source code for csv_example.py](http://datamade.github.com/dedupe-examples/docs/csv_example.html).**
 
