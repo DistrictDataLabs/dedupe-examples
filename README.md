@@ -1,5 +1,15 @@
 # Exploring Entity Resolution with Dedupe in Python
 
+This walk-through uses [Jupyter Notebook](http://jupyter.readthedocs.org/en/latest/install.html) and [Pandas](https://readthedocs.org/projects/pandas/) (and of course, [Dedupe](https://dedupe.readthedocs.org/en/latest/)) to explore some initial approaches to deduplication and entity resolution with the Python library Dedupe.
+
+Please make sure you have Jupyter and Pandas installed before we move on.
+
+```bash
+pip install jupyter
+pip install pandas
+```
+
+
 ## Dedupe Examples
 
 These are example scripts for the [dedupe](https://github.com/datamade/dedupe), a library that uses machine learning to perform de-duplication and entity resolution quickly on structured data.
